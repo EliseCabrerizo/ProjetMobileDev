@@ -4,6 +4,8 @@
     <string name="movie_details">Movie Details</string>
     <string name="plot">Plot Synopsis</string>
     <string name="action_settings">Settings</string>
+    <string name="action_rechercher">Rechercher film</string>
+    <string name="action_grille">Vue grille</string>
     <string name="rating">User Rating</string>
     <string name="release">Release Date</string>
 </resources>

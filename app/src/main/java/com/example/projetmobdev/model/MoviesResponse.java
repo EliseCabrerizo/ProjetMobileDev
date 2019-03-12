@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import retrofit2.Response;
-
 public class MoviesResponse {
     @SerializedName("page")
     @Expose

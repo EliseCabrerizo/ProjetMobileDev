@@ -1,17 +1,22 @@
 package com.example.projetmobdev.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.projetmobdev.DetailActivity;
 import com.example.projetmobdev.R;
 import com.example.projetmobdev.model.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
@@ -24,8 +29,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         this.movieList=movieList;
     }
 
+
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public MoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
         View view= LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.movie_card,viewGroup,false);
@@ -33,8 +39,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder viewHolder, int i){
-        viewHolder.bind(movieList.get(i));
+    public void onBindViewHolder(final MoviesAdapter.MyViewHolder viewHolder, int i){
+        //viewHolder.bind(movieList.get(i));
+        viewHolder.releaseDate.setText(movieList.get(i).getReleaseDate().split("-")[0]);
+        viewHolder.rating.setText(String.valueOf(movieList.get(i).getVoteAverage()));
+        viewHolder.title.setText(movieList.get(i).getOriginalTitle());
+        Glide.with(mContext)
+                .load("http://image.tmdb.org/t/p/original"+movieList.get(i).getPosterPath())
+                .into(viewHolder.thumbnail);
     }
 
     @Override
@@ -43,8 +55,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView title,rating,genres,releaseDate;
-        public ImageView thumbnail;
+        private TextView title,rating,genres,releaseDate;
+        private ImageView thumbnail;
         public MyViewHolder(View view)
         {
             super(view);
@@ -58,7 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                 @Override
                 public void onClick(View v)
                 {
-                    /*int pos=getAdapterPosition();
+                    int pos=getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION)
                     {
                         Movie clickDataItem = movieList.get(pos);
@@ -70,8 +82,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                         intent.putExtra("release_date",movieList.get(pos).getReleaseDate());
                         intent.putExtra("release_date",movieList.get(pos).getReleaseDate());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
                         Toast.makeText(v.getContext(),"You clicked"+clickDataItem.getOriginalTitle(),Toast.LENGTH_SHORT);
-                    }*/
+
+                    }
                 }
             });
         }
@@ -79,14 +93,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         {
             releaseDate.setText(movie.getReleaseDate().split("-")[0]);
             rating.setText(String.valueOf(movie.getVoteAverage()));
-            genres.setText("");
             title.setText(movie.getOriginalTitle());
-            //userrating.setText(String.valueOf(movie.getVoteAverage()));
-
             Glide.with(mContext)
                     .load("http://image.tmdb.org/t/p/original"+movie.getPosterPath())
                     .into(thumbnail);
         }
+
+
 
     }
 }

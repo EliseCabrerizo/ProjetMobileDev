@@ -2,51 +2,41 @@ package com.example.projetmobdev;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.projetmobdev.model.MoviesResponse;
+import com.bumptech.glide.request.RequestOptions;
 
 public class DetailActivity extends AppCompatActivity{
-    private TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
-    private ImageView imageView;
+    private ImageView movieBackdrop;
+    private TextView movieTitle,movieGenres,movieOverview,movieOverviewLabel,movieReleaseDate;
+    private RatingBar movieRating;
+    private LinearLayout movieTrailers;
     private LinearLayout movieReviews;
 
-    private MoviesResponse listMovies;
-    private int movieId;
-    public static String MOVIE_ID = "movie_id";
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        movieId = getIntent().getIntExtra(MOVIE_ID,movieId);
+        movieBackdrop = findViewById(R.id.thumbnail_image_header);
+        movieTitle = findViewById(R.id.movieDetailsTitle);
+        movieGenres = findViewById(R.id.movieDetailsGenres);
+        movieOverview = findViewById(R.id.movieDetailsOverview);
+        movieOverviewLabel = findViewById(R.id.summaryLabel);
+        movieReleaseDate = findViewById(R.id.movieDetailsReleaseDate);
+        movieRating = findViewById(R.id.movieDetailsRating);
+        movieTrailers = findViewById(R.id.movieTrailers);
+        movieReviews = findViewById(R.id.movieReviews);
 
-        Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
 
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        initCollapsingToolbar();
-
-        imageView=(ImageView) findViewById(R.id.thumbnail_image_header);
-        nameOfMovie = (TextView) findViewById(R.id.title);
-        plotSynopsis = (TextView) findViewById(R.id.plotsynopsis);
-        userRating = (TextView) findViewById(R.id.userrating);
-        releaseDate = (TextView) findViewById(R.id.releaseDate);
 
         Intent intentThatStartedThisActivity = getIntent();
         if(intentThatStartedThisActivity.hasExtra("original_title"))
@@ -54,52 +44,29 @@ public class DetailActivity extends AppCompatActivity{
             String thumbnail = getIntent().getExtras().getString("poster_path");
             String movieName = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
+
+            //double rating = getIntent().getExtras().getDouble("vote_average");
             String rating = getIntent().getExtras().getString("vote_average");
             String dateofRelease = getIntent().getExtras().getString("release_date");
-
+            String movieoverview = getIntent().getExtras().getString("overview");
             Glide.with(this)
-                    .load(thumbnail)
-                    .into(imageView);
+                    .load("http://image.tmdb.org/t/p/original"+thumbnail)
+                    .into(movieBackdrop);
 
-            nameOfMovie.setText(movieName);
-            plotSynopsis.setText(synopsis);
-            userRating.setText(rating);
-            releaseDate.setText(dateofRelease);
+
+
+            movieTitle.setText(movieName);
+            movieOverviewLabel.setVisibility(View.VISIBLE);
+            movieOverview.setText(synopsis);
+            movieRating.setVisibility(View.VISIBLE);
+            movieRating.setRating(Float.valueOf(rating)/2);
+            movieReleaseDate.setText(dateofRelease);
+
         }
         else
         {
             Toast.makeText(this,"No API Data",Toast.LENGTH_SHORT).show();
         }
     }
-    private void initCollapsingToolbar()
-    {
-        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(" ");
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        appBarLayout.setExpanded(true);
 
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow=false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged (AppBarLayout appBarLayout,int verticalOffset){
-                if(scrollRange==-1)
-                {
-                    scrollRange=appBarLayout.getTotalScrollRange();
-                }
-                if(scrollRange+verticalOffset==0)
-                {
-                    collapsingToolbarLayout.setTitle(getString(R.string.movie_details));
-                    isShow=true;
-                }
-                else if(isShow)
-                {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShow=false;
-                }
-            }
-
-        });
-    }
 }

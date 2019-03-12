@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
     private static final String LANGUAGE="fr-FR";
-    public static final String LOG_TAG =MoviesAdapter.class.getName();
 
 
     @Override
@@ -108,18 +108,21 @@ public class MainActivity extends AppCompatActivity {
                 pd.dismiss();
                 return;
             }
+
+
             Retrofit retrofit = retrofit=new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             Service apiInterface = retrofit.create(Service.class);
-           Call<MoviesResponse> call = apiInterface.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN,LANGUAGE,1);
+            Call<MoviesResponse> call = apiInterface.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN,LANGUAGE,1);
             call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     List<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(),movies));
                     recyclerView.smoothScrollToPosition(0);
+
                     if(swipeContainer.isRefreshing())
                     {
                         swipeContainer.setRefreshing(false);
