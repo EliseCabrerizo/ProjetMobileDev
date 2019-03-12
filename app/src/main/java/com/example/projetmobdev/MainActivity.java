@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -80,18 +78,20 @@ public class MainActivity extends AppCompatActivity {
         pd.setCancelable(false);
         pd.show();
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView= (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
         movieList=new ArrayList<>();
         adapter=new MoviesAdapter(this,movieList);
 
-         if(getActivity().getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)
+         /*if(getActivity().getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)
          {
              recyclerView.setLayoutManager(new GridLayoutManager(this,1));
          }
          else
          {
              recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-         }
+         }*/
          recyclerView.setItemAnimator(new DefaultItemAnimator());
          recyclerView.setAdapter(adapter);
          adapter.notifyDataSetChanged();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (item.getItemId())
         {
-            case R.id.menu_setting:
+            case R.id.action_search:
                 return true;
             default :
                 return super.onOptionsItemSelected(item);

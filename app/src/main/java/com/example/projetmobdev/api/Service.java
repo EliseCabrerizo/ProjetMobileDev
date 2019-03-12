@@ -14,5 +14,13 @@ public interface Service {
             @Query("language") String language,
             @Query("page") int page
     );
+
+    @GET("movie/search")
+    Call<MoviesResponse> getSearchMovie(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("q") String query,
+            @Query("page") int page
+    );
 }
 

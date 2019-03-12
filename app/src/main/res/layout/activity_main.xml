@@ -3,8 +3,8 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue">
-
+    android:background="@color/blue"
+    >
 
     <include layout="@layout/content_main"/>
 </android.support.v4.widget.SwipeRefreshLayout>

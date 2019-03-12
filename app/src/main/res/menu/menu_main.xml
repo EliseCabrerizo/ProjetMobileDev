@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_setting"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-    />
+        android:id="@+id/action_search"
+        android:icon="@drawable/baseline_youtube_searched_for_white_18dp"
+        android:title="@string/action_rechercher"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom" />
 </menu>
