@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private static final String BASE_URL = "http://api.themoviedb.org/3/";
     private RecyclerView recyclerView;
+    private SearchView searchView;
     private MoviesAdapter adapter;
     private List<Movie> movieList;
     ProgressDialog pd;
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
                 @Override
                 public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                    Log.e("Error", "", t);
+                    Log.e("Error", t.getMessage(), t);
                     Toast.makeText(MainActivity.this, "Error Fetching Data ! ", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -130,11 +131,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -147,17 +148,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        loadJSON("search", query);
         return false;
     }
 
 
     @Override
     public boolean onClose() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        searchView.onActionViewCollapsed();
         loadJSON("popular", "");
         return true;
     }
