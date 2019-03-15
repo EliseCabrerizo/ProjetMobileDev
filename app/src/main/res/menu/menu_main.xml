@@ -6,5 +6,6 @@
         android:icon="@drawable/baseline_youtube_searched_for_white_18dp"
         android:title="@string/action_rechercher"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+    />
 </menu>

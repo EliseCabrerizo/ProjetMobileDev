@@ -15,11 +15,11 @@ public interface Service {
             @Query("page") int page
     );
 
-    @GET("movie/search")
+    @GET("search/movie")
     Call<MoviesResponse> getSearchMovie(
             @Query("api_key") String apiKey,
             @Query("language") String language,
-            @Query("q") String query,
+            @Query("query") String query,
             @Query("page") int page
     );
 }

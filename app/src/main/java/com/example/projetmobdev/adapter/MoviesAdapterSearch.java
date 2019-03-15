@@ -17,11 +17,11 @@ import com.example.projetmobdev.model.Movie;
 
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
+public class MoviesAdapterSearch  extends RecyclerView.Adapter<MoviesAdapterSearch.MyViewHolder>{
     private Context mContext;
     private List<Movie> movieList;
 
-    public MoviesAdapter(Context mContext, List<Movie> movieList)
+    public MoviesAdapterSearch(Context mContext, List<Movie> movieList)
     {
         this.mContext=mContext;
         this.movieList=movieList;
@@ -29,22 +29,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
 
     @Override
-    public MoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public MoviesAdapterSearch.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
         View view= LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.movie_card_h,viewGroup,false);
-        return new MyViewHolder(view);
+                .inflate(R.layout.movie_card,viewGroup,false);
+        return new MoviesAdapterSearch.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MoviesAdapter.MyViewHolder viewHolder, int i){
+    public void onBindViewHolder(final MoviesAdapterSearch.MyViewHolder viewHolder, int i){
         viewHolder.bind(movieList.get(i));
-        /*viewHolder.releaseDate.setText(movieList.get(i).getReleaseDate().split("-")[0]);
-        viewHolder.rating.setText(String.valueOf(movieList.get(i).getVoteAverage()));
-        viewHolder.title.setText(movieList.get(i).getOriginalTitle());
-        Glide.with(mContext)
-                .load("http://image.tmdb.org/t/p/original"+movieList.get(i).getPosterPath())
-                .into(viewHolder.thumbnail);*/
     }
 
     @Override
@@ -53,16 +47,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title,rating,genres,releaseDate;
+        private TextView title,rating,releaseDate;
         private ImageView thumbnail;
         public MyViewHolder(View view)
         {
             super(view);
-            //title= (TextView) view.findViewById(R.id.title);
+            title= (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            //releaseDate = itemView.findViewById(R.id.item_movie_release_date);
-           // rating = itemView.findViewById(R.id.item_movie_rating);
-            //genres = itemView.findViewById(R.id.item_movie_genre);
+            releaseDate = itemView.findViewById(R.id.item_movie_release_date);
+            rating = itemView.findViewById(R.id.item_movie_rating);
 
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -89,9 +82,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         }
         public void bind(Movie movie)
         {
-            //releaseDate.setText(movie.getReleaseDate().split("-")[0]);
-            //rating.setText(String.valueOf(movie.getVoteAverage()));
-            //title.setText(movie.getOriginalTitle());
+            releaseDate.setText(movie.getReleaseDate().split("-")[0]);
+            rating.setText(String.valueOf(movie.getVoteAverage()));
+            title.setText(movie.getOriginalTitle());
             Glide.with(mContext)
                     .load("http://image.tmdb.org/t/p/original"+movie.getPosterPath())
                     .into(thumbnail);
