@@ -68,14 +68,18 @@ public class DetailActivity extends AppCompatActivity{
             customButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //MainActivity.listUser.add((Movie) getIntent().clone());
-                    if(customButton.isEnabled())
+
+                    if(customButton.isEnabled()&&!MainActivity.listUser.contains((Movie) getIntent().getSerializableExtra("movie")))
                     {
+                        MainActivity.listUser.add((Movie) getIntent().getSerializableExtra("movie"));
                         customButton.setEnabled(false);
+                        customButton.setFreezesText(true);
                     }
-                    else
+                    else if(!customButton.isEnabled()&&MainActivity.listUser.contains((Movie) getIntent().getSerializableExtra("movie")))
                     {
+                        MainActivity.listUser.remove((Movie) getIntent().getSerializableExtra("movie"));
                         customButton.setEnabled(true);
+                        customButton.setFreezesText(true);
                     }
                 }
             });
@@ -85,5 +89,4 @@ public class DetailActivity extends AppCompatActivity{
             Toast.makeText(this,"No API Data",Toast.LENGTH_SHORT).show();
         }
     }
-
 }

@@ -59,7 +59,7 @@ public class UsersActivity extends AppCompatActivity {
             }
         });
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -73,49 +73,8 @@ public class UsersActivity extends AppCompatActivity {
     private void initViews() {
         recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), MainActivity.listUser));
         recyclerView.smoothScrollToPosition(0);
-        //pd.show();
-        //loadJSON();
     }
 
-    private void loadJSON() {
-        try {
-            if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Please obtain API key firstly from themoviedb.org", Toast.LENGTH_SHORT).show();
-                pd.dismiss();
-                return;
-            }
-            Call<MoviesResponse> call = apiInterface.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN, LANGUAGE, 1);
-            call.enqueue(new Callback<MoviesResponse>() {
-                @Override
-                public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                    if (response.isSuccessful()) {
-                        List<Movie> movies = response.body().getResults();
-                            recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), MainActivity.listUser));
-
-                        recyclerView.smoothScrollToPosition(0);
-
-                        if (swipeContainer.isRefreshing()) {
-                            swipeContainer.setRefreshing(false);
-                        }
-                        pd.dismiss();
-                    }
-                    else {
-                        Log.e("onResponse", response.message());
-                    }
-                }
-
-
-                @Override
-                public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                    Log.e("Error", t.getMessage(), t);
-                    Toast.makeText(UsersActivity.this, "Error Fetching Data ! ", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.e("Error", "", e);
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 }
