@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.projetmobdev.adapter.MoviesAdapter;
 import com.example.projetmobdev.adapter.MoviesAdapterSearch;
+import com.example.projetmobdev.adapter.ParentAdapter;
 import com.example.projetmobdev.api.Service;
 import com.example.projetmobdev.model.Movie;
 import com.example.projetmobdev.model.MoviesResponse;
@@ -34,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private static final String BASE_URL = "http://api.themoviedb.org/3/";
     private RecyclerView recyclerView;
     private SearchView searchView;
-    private MoviesAdapter adapter;
-    private List<Movie> movieList;
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
     private static final String LANGUAGE = "fr-FR";
@@ -61,9 +60,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
             }
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setLayoutManager(new GridLayoutManager(this,3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -98,7 +96,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         List<Movie> movies = response.body().getResults();
 
                         if (theme.equals("popular"))
-                            recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), movies));
+                        {
+                            //recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), movies));
+                            recyclerView.setAdapter(new ParentAdapter(getApplicationContext(), movies));
+                        }
                         else
                             recyclerView.setAdapter(new MoviesAdapterSearch(getApplicationContext(), movies));
                         recyclerView.smoothScrollToPosition(0);
