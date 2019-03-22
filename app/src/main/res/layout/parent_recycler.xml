@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="2dp"
-        card_view:cardBackgroundColor="#fff"
+        card_view:cardBackgroundColor="@color/clair"
         card_view:cardCornerRadius="5dp"
 
         card_view:cardElevation="4dp"
@@ -28,7 +28,7 @@
                 android:layout_alignLeft="@+id/rv_child"
                 android:padding="20dp"
                 android:text="Hello World"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView

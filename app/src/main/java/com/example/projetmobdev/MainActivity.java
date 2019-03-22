@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.projetmobdev.adapter.MoviesAdapter;
 import com.example.projetmobdev.adapter.MoviesAdapterSearch;
 import com.example.projetmobdev.adapter.ParentAdapter;
 import com.example.projetmobdev.api.Service;
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             else
             {
                 Call<MoviesResponse> call= apiInterface.getSearchMovie(BuildConfig.THE_MOVIE_DB_API_TOKEN, LANGUAGE, query, 1);
-            call.enqueue(new Callback<MoviesResponse>() {
+                    call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     if (response.isSuccessful()) {
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
                             recyclerView.setAdapter(new MoviesAdapterSearch(getApplicationContext(), movies));
-                        recyclerView.smoothScrollToPosition(0);
+                            recyclerView.smoothScrollToPosition(0);
 
                         if (swipeContainer.isRefreshing()) {
                             swipeContainer.setRefreshing(false);
@@ -149,8 +148,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onQueryTextSubmit(String query) {
         if(!query.equals(""))
         {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(layoutManager);
             loadJSON("search", query);
         }
         return false;
@@ -158,8 +155,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String query) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
         loadJSON("search", query);
         return false;
     }
@@ -167,8 +162,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onClose() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
         searchView.onActionViewCollapsed();
         loadJSON("popular", "");
         return true;

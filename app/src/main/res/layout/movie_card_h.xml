@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-
+    card_view:cardBackgroundColor="@color/clair"
     android:orientation="horizontal"
     card_view:cardCornerRadius="5dp"
     card_view:cardUseCompatPadding="true"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#003366</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#003366</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="blue">#003366</color>
-    <color name="clair">#F0F8FF</color>
+    <color name="clair">#1464B4</color>
     <color name="movie_title">#4c4c4c</color>
+    <color name="white">#fff</color>
 </resources>

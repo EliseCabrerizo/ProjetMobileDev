@@ -6,7 +6,8 @@
     android:layout_height="128dp"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    card_view:cardBackgroundColor="@color/clair">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,6 +23,7 @@
                 card_view:srcCompat="@mipmap/ic_launcher_round" />
             <TextView
                 android:id="@+id/item_movie_release_date"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -36,6 +38,7 @@
 
             <TextView
                 android:id="@+id/title"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -63,6 +66,7 @@
 
             <TextView
                 android:id="@+id/item_movie_rating"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
