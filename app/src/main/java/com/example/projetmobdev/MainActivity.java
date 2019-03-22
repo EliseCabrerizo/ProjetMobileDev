@@ -22,6 +22,7 @@ import com.example.projetmobdev.model.Movie;
 import com.example.projetmobdev.model.MoviesResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,10 +33,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
-    private static final String BASE_URL = "http://api.themoviedb.org/3/";
+    public static final String BASE_URL = "http://api.themoviedb.org/3/";
     private RecyclerView recyclerView;
     private SearchView searchView;
-    ProgressDialog pd;
+    public static ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
     private static final String LANGUAGE = "fr-FR";
     private Service apiInterface;
@@ -84,23 +85,29 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 pd.dismiss();
                 return;
             }
-            Call<MoviesResponse> call;
+
             if (theme.equals("popular"))
-                call = apiInterface.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN, LANGUAGE, 1);
+            {
+                String[] tab = {"POPULAR","TOP RATED","UPCOMMING","NOW PLAYING"};
+                List<String> moviesName = Arrays.asList(tab);
+                recyclerView.setAdapter(new ParentAdapter(getApplicationContext(), moviesName));
+                recyclerView.smoothScrollToPosition(0);
+                if (swipeContainer.isRefreshing()) {
+                    swipeContainer.setRefreshing(false);
+                }
+                pd.dismiss();
+            }
+
             else
-                call = apiInterface.getSearchMovie(BuildConfig.THE_MOVIE_DB_API_TOKEN, LANGUAGE, query, 1);
+            {
+                Call<MoviesResponse> call= apiInterface.getSearchMovie(BuildConfig.THE_MOVIE_DB_API_TOKEN, LANGUAGE, query, 1);
             call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     if (response.isSuccessful()) {
                         List<Movie> movies = response.body().getResults();
 
-                        if (theme.equals("popular"))
-                        {
-                            //recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), movies));
-                            recyclerView.setAdapter(new ParentAdapter(getApplicationContext(), movies));
-                        }
-                        else
+
                             recyclerView.setAdapter(new MoviesAdapterSearch(getApplicationContext(), movies));
                         recyclerView.smoothScrollToPosition(0);
 
@@ -114,13 +121,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     }
                 }
 
-
                 @Override
                 public void onFailure(Call<MoviesResponse> call, Throwable t) {
                     Log.e("Error", t.getMessage(), t);
                     Toast.makeText(MainActivity.this, "Error Fetching Data ! ", Toast.LENGTH_SHORT).show();
                 }
             });
+            }
         } catch (Exception e) {
             Log.e("Error", "", e);
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();

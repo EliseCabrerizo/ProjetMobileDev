@@ -14,6 +14,27 @@ public interface Service {
             @Query("language") String language,
             @Query("page") int page
     );
+    @GET("movie/top_rated")
+    Call<MoviesResponse> getTopRatedMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page
+    );
+
+
+    @GET("movie/upcoming")
+    Call<MoviesResponse> getUpComingMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page
+    );
+    @GET("movie/now_playing")
+    Call<MoviesResponse> getPlayingMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page
+    );
+
 
     @GET("search/movie")
     Call<MoviesResponse> getSearchMovie(
