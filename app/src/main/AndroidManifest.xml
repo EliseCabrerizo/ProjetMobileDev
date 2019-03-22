@@ -21,18 +21,11 @@
         <activity
             android:name=".DetailActivity"
             android:label="Movies"
-            android:parentActivityName=".MainActivity"
             >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".UsersActivity"
-            android:label="Movies"
-            android:parentActivityName=".MainActivity"
-            >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            android:label="Movies">
         </activity>
     </application>
 

@@ -3,6 +3,7 @@ package com.example.projetmobdev;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +30,11 @@ public class DetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
+        //add back button
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         movieBackdrop = findViewById(R.id.thumbnail_image_header);
         movieTitle = findViewById(R.id.movieDetailsTitle);
         movieGenres = findViewById(R.id.movieDetailsGenres);
@@ -41,6 +47,16 @@ public class DetailActivity extends AppCompatActivity{
         customButton = findViewById(R.id.button);
 
 
+        if(getIntent().getSerializableExtra("like").equals(true))
+            customButton.setEnabled(false);
+        else
+        {
+            for(int i=0;i<MainActivity.listUser.size();i++)
+            {
+                if (getIntent().getSerializableExtra("original_title").equals(MainActivity.listUser.get(i).getOriginalTitle()))
+                    customButton.setEnabled(false);
+            }
+        }
         Intent intentThatStartedThisActivity = getIntent();
         if(intentThatStartedThisActivity.hasExtra("original_title"))
         {
@@ -48,10 +64,8 @@ public class DetailActivity extends AppCompatActivity{
             String movieName = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
 
-            //double rating = getIntent().getExtras().getDouble("vote_average");
             String rating = getIntent().getExtras().getString("vote_average");
             String dateofRelease = getIntent().getExtras().getString("release_date");
-            String movieoverview = getIntent().getExtras().getString("overview");
             Glide.with(this)
                     .load("http://image.tmdb.org/t/p/original"+thumbnail)
                     .into(movieBackdrop);
@@ -69,17 +83,18 @@ public class DetailActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
 
-                    if(customButton.isEnabled()&&!MainActivity.listUser.contains((Movie) getIntent().getSerializableExtra("movie")))
+                    String temp = getIntent().getSerializableExtra("like").toString();
+                    if(getIntent().getSerializableExtra("like").equals(false))
                     {
                         MainActivity.listUser.add((Movie) getIntent().getSerializableExtra("movie"));
+                        int j =MainActivity.listUser.indexOf((Movie) getIntent().getSerializableExtra("movie"));
+                        MainActivity.listUser.get(j).setLike(true);
                         customButton.setEnabled(false);
-                        customButton.setFreezesText(true);
                     }
-                    else if(!customButton.isEnabled()&&MainActivity.listUser.contains((Movie) getIntent().getSerializableExtra("movie")))
+                    else if(MainActivity.listUser.contains((Movie) getIntent().getSerializableExtra("movie")))
                     {
                         MainActivity.listUser.remove((Movie) getIntent().getSerializableExtra("movie"));
                         customButton.setEnabled(true);
-                        customButton.setFreezesText(true);
                     }
                 }
             });
@@ -88,5 +103,13 @@ public class DetailActivity extends AppCompatActivity{
         {
             Toast.makeText(this,"No API Data",Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id=item.getItemId();
+        if(id==android.R.id.home)
+            this.finish();
+        return super.onOptionsItemSelected(item);
     }
 }

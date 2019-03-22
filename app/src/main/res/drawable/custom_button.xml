@@ -6,4 +6,5 @@
     <item
         android:state_enabled="true"
         android:drawable="@drawable/ic_favoriteborder_white_18dp"/>
+
 </selector>

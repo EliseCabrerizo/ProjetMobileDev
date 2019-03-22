@@ -51,6 +51,11 @@ public class Movie implements Serializable {
     @Expose
     private String releaseDate;
 
+    private boolean like = false;
+
+    public boolean isLike() { return like; }
+    public void setLike(boolean like){this.like =like;}
+
     public int getVoteCount() {
         return voteCount;
     }

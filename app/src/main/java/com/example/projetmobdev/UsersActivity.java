@@ -46,6 +46,10 @@ public class UsersActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setMessage("Fetching movies...");
         pd.setCancelable(false);
+        //add back button
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.main_content);
@@ -75,6 +79,14 @@ public class UsersActivity extends AppCompatActivity {
         recyclerView.smoothScrollToPosition(0);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id=item.getItemId();
+        if(id==android.R.id.home)
+            this.finish();
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

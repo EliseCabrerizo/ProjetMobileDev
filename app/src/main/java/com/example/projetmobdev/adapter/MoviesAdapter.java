@@ -39,12 +39,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MoviesAdapter.MyViewHolder viewHolder, int i){
         viewHolder.bind(movieList.get(i));
-        /*viewHolder.releaseDate.setText(movieList.get(i).getReleaseDate().split("-")[0]);
-        viewHolder.rating.setText(String.valueOf(movieList.get(i).getVoteAverage()));
-        viewHolder.title.setText(movieList.get(i).getOriginalTitle());
-        Glide.with(mContext)
-                .load("http://image.tmdb.org/t/p/original"+movieList.get(i).getPosterPath())
-                .into(viewHolder.thumbnail);*/
     }
 
     @Override
@@ -53,16 +47,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title,rating,genres,releaseDate;
         private ImageView thumbnail;
         public MyViewHolder(View view)
         {
             super(view);
-            //title= (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            //releaseDate = itemView.findViewById(R.id.item_movie_release_date);
-           // rating = itemView.findViewById(R.id.item_movie_rating);
-            //genres = itemView.findViewById(R.id.item_movie_genre);
 
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -80,6 +69,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                         intent.putExtra("vote_average",Double.toString(movieList.get(pos).getVoteAverage()));
                         intent.putExtra("release_date",movieList.get(pos).getReleaseDate());
                         intent.putExtra("release_date",movieList.get(pos).getReleaseDate());
+                        intent.putExtra("like",movieList.get(pos).isLike());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                         Toast.makeText(v.getContext(),"You clicked"+clickDataItem.getOriginalTitle(),Toast.LENGTH_SHORT);
